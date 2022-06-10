@@ -12,16 +12,18 @@ class Solution:
       
   '''
 # Second solution 
-if intervals ==[]:
-return []
-sorted = []
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+	if intervals ==[]:
+	return []
+	sorted = []
 
-intervals.sort() # sort the inrvals
-for intrval in intervals:
-	if sorted == [] or sorted[-1][1] < interval[0]:
-		sorted.append(interval)
-	else: 
-		sorted[-1][1] = max(sorted[-1][1], interval[1])	
+	intervals.sort() # sort the inrvals
+	for intrval in intervals:
+		if sorted == [] or sorted[-1][1] < interval[0]:
+			sorted.append(interval)
+		else: 
+			sorted[-1][1] = max(sorted[-1][1], interval[1])	
 ''''	
 	
 
