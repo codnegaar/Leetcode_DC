@@ -16,9 +16,15 @@ class Solution:
         cnt = 0
         for lst in lists:
             if lst:
+                
+               #  heapq.heappush(heap, item): Push the value item onto the heap, maintaining the heap invariant.
                 heapq.heappush(h, (lst.val, cnt, lst))
                 cnt += 1
         while(len(h)):
+            
+            # Pop and return the smallest item from the heap, maintaining the heap invariant. If the heap is empty, IndexError is raised. 
+            # To access the smallest item without popping it, use heap[0].
+            
             smallestPnt = heapq.heappop(h)[2]
             p.next = smallestPnt
             p = p.next
