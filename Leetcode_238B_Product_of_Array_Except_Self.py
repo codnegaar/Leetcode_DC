@@ -12,3 +12,21 @@ Input: nums = [-1,1,0,-3,3]
 Output: [0,0,9,0,0]
 
 '''
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        res = [1] * (len(nums))
+        frw = 1
+        for i in range(len(nums)):
+            res[i] = frw  
+            frw *= nums[i]
+        bkw = 1
+        for i in range(len(nums) -1, -1 , -1):
+            res[i] *= bkw
+            bkw *= nums[i]
+        return res
+            
+            
+            
+            
+        
+        
