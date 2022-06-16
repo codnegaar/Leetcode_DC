@@ -7,5 +7,5 @@ class Solution:
                 cursum = 0
             cursum += i
             maxsub = max(maxsub, cursum)
-        return maxsub
+        return maxsub 
         
