@@ -16,6 +16,20 @@ Example 1: Input: head = [[7,null],[13,0],[11,4],[10,2],[1,0]]  --> output: [[7,
 
 Video: https://www.youtube.com/watch?v=5Y2EiZST97Y
 
+Solution
+  Runtime complexity: O(N)
+  Space complexity: O(N)
+ 
+
+Here is how the solution algorithm works to find a paid that adds up to the target.
+For this problem, we will use a map to track the arbitrary nodes pointed by the original list. 
+Then, we create a deep copy of the original linked list in two passes.For the first pass, we 
+create a copy of the original linked list. When create the new copy, use the same values for 
+data and arbitrary_pointer in the copied list. Furthermore, it’s important to keep updating 
+the map with entries where the key is the address to the old node and the value is the address 
+of the new node. Once we’ve created the copy, again we’ll pass the copied linked list and update 
+the arbitrary pointers to the new address created in the first pass.
+
 '''
  
 class Solution:
