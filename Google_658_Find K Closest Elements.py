@@ -15,4 +15,26 @@ and push them in a min-heap sorted by their difference from X.
 
 Finally, we extract the top K numbers from the min-heap to find the required numbers.
 
+https://www.youtube.com/watch?v=o-YDQzHoaKM
+
  '''
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        l = 0
+        r = len(arr)-k
+     
+        while l < r:
+            m = (l+r)//2
+        
+            if x -arr[m]>arr[m+k]-x:
+                l = m +1
+            else:
+                r=m
+        return arr[l:l+k]
+
+
+        
+        
+
+
+
