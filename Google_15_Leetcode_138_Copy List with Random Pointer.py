@@ -12,9 +12,44 @@ The linked list is represented in the input/output as a list of n nodes. Each no
           random_index: the index of the node (range from 0 to n-1) that the random pointer points to, or null if it does not point to any node.
           Your code will only be given the head of the original linked list.
 
+Example 1: Input: head = [[7,null],[13,0],[11,4],[10,2],[1,0]]  --> output: [[7,null],[13,0],[11,4],[10,2],[1,0]]
 
-
-
-
+Video: https://www.youtube.com/watch?v=5Y2EiZST97Y
 
 '''
+ 
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+                
+        '''
+           create a hashmap, it's pretty straightforward right if we had a old node 
+           that was null we want to the copy is also going to be null
+        
+        '''
+        
+        hashCopy = {None: None}        
+        cur = head
+        
+        while cur: # First loop for nodes(value)
+            copiedNode = Node(cur.val)
+            hashCopy[cur] = copiedNode 
+            cur = cur.next
+            
+            '''
+               Run the loop one more time setting current to the beginning of the
+               Linked list keep going until we reach the end of the linked lis            
+            
+            '''
+            
+        cur = head  # second loop for pointers
+        while cur:
+            copiedNode = hashCopy[cur]
+            copiedNode.next = hashCopy[cur.next]
+            copiedNode.random = hashCopy[cur.random]
+            
+            # Traverse in linkedList
+            cur = cur.next
+
+        return hashCopy [head]
+
+        
