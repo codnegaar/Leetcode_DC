@@ -67,8 +67,5 @@ class Solution:
         return res if n >= 0 else 1 / res
 
 
-Copyright © 2022 NeetCode.io All rights reserved.
-Contact:  neetcodebusiness@gmail.com
 
-Github    Privacy    Terms
 
