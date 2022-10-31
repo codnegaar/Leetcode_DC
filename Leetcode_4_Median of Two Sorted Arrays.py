@@ -61,5 +61,4 @@ class Solution:
             elif Aleft > Bright:
                 r = i - 1
             else:
-                l = i + 1
-        
+                l = i + 1        
