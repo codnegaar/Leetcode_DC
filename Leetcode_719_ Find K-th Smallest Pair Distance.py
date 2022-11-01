@@ -50,18 +50,23 @@ Python3
                 left = mid+1
         return left
 '''
-from heapq import heappop, heappush
 class Solution:
     def smallestDistancePair(self, nums: List[int], k: int) -> int:
-        n = len(nums)
+        
+        def count(arr, val):
+            res = 0
+            for i in range(len(arr)):
+                res += bisect.bisect_right(arr, arr[i] + val, lo=i) - i - 1
+            return res
+
         nums.sort()
-        heap = [(nums[i + 1] - nums[i], i, i + 1) for i in range(n - 1)]
-        heapify(heap)
-
-        for _ in range(k):
-            d, root, nei = heappop(heap)
-            if nei + 1 < n:
-                heappush(heap, (nums[nei + 1] - nums[root], root, nei + 1))
-
-        return d
+        lo = min(abs(nums[i] - nums[i + 1]) for i in range(len(nums) - 1))
+        hi = abs(nums[0] - nums[~0])
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if count(nums, mid) < k:
+                lo = mid + 1
+            else:
+                hi = mid
+        return lo
         
