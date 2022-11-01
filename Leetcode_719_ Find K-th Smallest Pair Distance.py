@@ -50,25 +50,18 @@ Python3
                 left = mid+1
         return left
 '''
- 
- class Solution:
+from heapq import heappop, heappush
+class Solution:
     def smallestDistancePair(self, nums: List[int], k: int) -> int:
-        # Sliding window solution
-        def possible(guess, nums, k):
-            count, left = 0, 0
-            for right, num in enumerate(nums):
-                while num-nums[left] > guess:
-                    left += 1
-                count += right-left
-            return count >= k
-
+        n = len(nums)
         nums.sort()
-        left, right = 0, nums[-1]-nums[0]+1
-        while left < right:
-            mid = left + (right-left)/2
-            if possible(mid, nums, k):
-                right = mid
-            else:
-                left = mid+1
-        return left
+        heap = [(nums[i + 1] - nums[i], i, i + 1) for i in range(n - 1)]
+        heapify(heap)
+
+        for _ in range(k):
+            d, root, nei = heappop(heap)
+            if nei + 1 < n:
+                heappush(heap, (nums[nei + 1] - nums[root], root, nei + 1))
+
+        return d
         
