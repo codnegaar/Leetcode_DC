@@ -16,4 +16,4 @@ class Solution:
                 else:
                     result.append([value, nums[left], nums[right]])
         return -1
-                   
+    
