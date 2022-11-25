@@ -33,6 +33,26 @@ class Solution:
         length_ = len(arr) - 1
 
         # Find the number of zeros to be duplicated
+       
+       
+       
+  # second solution
+  class Solution(object):
+    def duplicateZeros(self, arr):
+        
+        """
+        :type arr: List[int]
+        :rtype: None Do not return anything, modify arr in-place instead.
+        """
+        i =0 
+        while i <len(arr):
+            if arr[i] != 0:
+                i +=1
+            else:
+                arr.insert(i+1, 0)
+                i += 2
+                arr.pop()
+
         for left in range(length_ + 1):
 
             # Stop when left points beyond the last element in the original list
