@@ -26,3 +26,5 @@ class Solution:
         ans[-1][1] = max(ans[-1][1], interval[1])
 
     return ans
+
+
