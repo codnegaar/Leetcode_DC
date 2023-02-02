@@ -35,69 +35,55 @@ Constraints:
 
 
 '''
-
+from collections import defaultdict
 
 class Solution:
-  def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-    wordSet = set(wordList)
-    if endWord not in wordList:
-      return []
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        
+        def createAdjacencyList(wordList):
+            adj = defaultdict(set)
+            d = defaultdict(set)
+            for word in wordList:
+                for i in range(len(word)):
+                    derived = word[:i] + "*" + word[i+1:]
+                    for neighbor in d[derived]:
+                        adj[word].add(neighbor)
+                        adj[neighbor].add(word)
+                    d[derived].add(word)
+            return adj
+        
+        def edgesOnShortestPaths(adj, beginWord, endWord):
+            frontier = [beginWord]
+            edges = defaultdict(list)
+            edges[beginWord] = []
+            while endWord not in frontier:
+                nextfrontier = set(neighbor
+                    for word in frontier
+                    for neighbor in adj[word]
+                    if neighbor not in edges
+                )
+                if not nextfrontier:  # endNode is not reachable
+                    return
+                for word in frontier:
+                    for neighbor in adj[word]:
+                        if neighbor in nextfrontier:
+                            edges[neighbor].append(word)
+                frontier = nextfrontier
+            return edges
+        
+        def generatePaths(edges, word):
+            if not edges[word]:
+                yield [word]
+            else:
+                for neighbor in edges[word]:
+                    for path in generatePaths(edges, neighbor):
+                        yield path + [word]
+            
 
-    # {"hit": ["hot"], "hot": ["dot", "lot"], ...}
-    graph: Dict[str, List[str]] = collections.defaultdict(list)
-
-    # Build graph from beginWord -> endWord
-    if not self._bfs(beginWord, endWord, wordSet, graph):
-      return []
-
-    ans = []
-
-    self._dfs(graph, beginWord, endWord, [beginWord], ans)
-    return ans
-
-  def _bfs(self, beginWord: str, endWord: str, wordSet: Set[str], graph: Dict[str, List[str]]) -> bool:
-    currentLevelWords = {beginWord}
-
-    while currentLevelWords:
-      for word in currentLevelWords:
-        wordSet.discard(word)
-      nextLevelWords = set()
-      reachEndWord = False
-      for parent in currentLevelWords:
-        for child in self._getChildren(parent, wordSet):
-          if child in wordSet:
-            nextLevelWords.add(child)
-            graph[parent].append(child)
-          if child == endWord:
-            reachEndWord = True
-      if reachEndWord:
-        return True
-      currentLevelWords = nextLevelWords
-
-    return False
-
-  def _getChildren(self, parent: str, wordSet: Set[str]) -> List[str]:
-    children = []
-    s = list(parent)
-
-    for i, cache in enumerate(s):
-      for c in string.ascii_lowercase:
-        if c == cache:
-          continue
-        s[i] = c
-        child = ''.join(s)
-        if child in wordSet:
-          children.append(child)
-      s[i] = cache
-
-    return children
-
-  def _dfs(self, graph: Dict[str, List[str]], word: str, endWord: str, path: List[str], ans: List[List[str]]) -> None:
-    if word == endWord:
-      ans.append(path.copy())
-      return
-
-    for child in graph.get(word, []):
-      path.append(child)
-      self._dfs(graph, child, endWord, path, ans)
-      path.pop()
+        if endWord not in wordList:  # shortcut exit
+            return []
+        adj = createAdjacencyList([beginWord] + wordList)
+        edges = edgesOnShortestPaths(adj, beginWord, endWord)
+        if not edges:  # endNode is not reachable
+            return []
+        return list(generatePaths(edges, endWord))
