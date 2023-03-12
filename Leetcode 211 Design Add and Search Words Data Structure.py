@@ -38,35 +38,38 @@ At most 104 calls will be made to addWord and search.
 
 '''
 class TrieNode:
-  def __init__(self):
-    self.children: Dict[str, TrieNode] = collections.defaultdict(TrieNode)
-    self.isWord = False
+    def __init__(self):
+        self.children = {}  # a : TrieNode
+        self.word = False
 
 
 class WordDictionary:
-  def __init__(self):
-    self.root = TrieNode()
+    def __init__(self):
+        self.root = TrieNode()
 
-  def addWord(self, word: str) -> None:
-    node: TrieNode = self.root
-    for c in word:
-      if c not in node.children:
-        node.children[c] = TrieNode()
-      node = node.children[c]
-    node.isWord = True
+    def addWord(self, word: str) -> None:
+        cur = self.root
+        for c in word:
+            if c not in cur.children:
+                cur.children[c] = TrieNode()
+            cur = cur.children[c]
+        cur.word = True
 
-  def search(self, word: str) -> bool:
-    return self._dfs(word, 0, self.root)
+    def search(self, word: str) -> bool:
+        def dfs(j, root):
+            cur = root
 
-  def _dfs(self, word: str, s: int, node: TrieNode) -> bool:
-    if s == len(word):
-      return node.isWord
-    if word[s] != '.':
-      next: TrieNode = node.children[word[s]]
-      return self._dfs(word, s + 1, next) if next else False
+            for i in range(j, len(word)):
+                c = word[i]
+                if c == ".":
+                    for child in cur.children.values():
+                        if dfs(i + 1, child):
+                            return True
+                    return False
+                else:
+                    if c not in cur.children:
+                        return False
+                    cur = cur.children[c]
+            return cur.word
 
-    for c in string.ascii_lowercase:
-      if c in node.children and self._dfs(word, s + 1, node.children[c]):
-        return True
-
-    return False
+        return dfs(0, self.root)
