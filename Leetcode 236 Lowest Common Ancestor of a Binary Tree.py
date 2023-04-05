@@ -53,3 +53,4 @@ class Solution:
     if l and r:
       return root
     return l or r
+   
