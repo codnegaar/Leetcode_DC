@@ -1,4 +1,5 @@
 '''
+
 Leetcode 304 Range Sum Query 2D - Immutable
 Given a 2D matrix matrix, handle multiple queries of the following type:
 Calculate the sum of the elements of matrix inside the rectangle defined by its upper left corner 
@@ -53,7 +54,4 @@ class NumMatrix:
   def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
     return self.prefix[row2 + 1][col2 + 1] - self.prefix[row1][col2 + 1] - \
         self.prefix[row2 + 1][col1] + self.prefix[row1][col1]
-
-
-
 
