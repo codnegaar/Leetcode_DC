@@ -43,3 +43,4 @@ class Solution:
         heapq.heappush(minHeap, (prime * uglyNums[index], prime, index + 1))
 
     return uglyNums[-1]
+
