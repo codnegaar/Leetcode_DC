@@ -1,5 +1,6 @@
 '''
-Kth Largest Element in an Array
+
+Leetcode 75-Heap & Priority Queue Kth Largest Element in an Array
 
 Given an integer array nums and an integer k, return the kth largest element in the array.
 Note that it is the kth largest element in the sorted order, not the kth distinct element.
@@ -20,10 +21,13 @@ Constraints:
 '''
 
 class Solution:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
-        
+    def findKthLargest(self, nums: List[int], k: int) -> int:        
         nums.sort()
-        if k ==1:
-            return nums[-1]
-        
+        if k == 1:
+            return nums[-1]        
         return nums[len(nums)-k]
+
+# secon solution
+class Solution:
+    def findKthLargest(self, nums, k):
+        return sorted(nums, reverse=True)[k-1]
