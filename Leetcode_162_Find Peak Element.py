@@ -61,4 +61,15 @@ class Solution:
             return end
         
         return start
-        
+
+# solution 4
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        nums.append(-2147483649)
+        nums.insert(0,-2147483649)
+        for i in range(1,len(nums)-1):
+            if nums[i-1]<nums[i] and nums[i]>nums[i+1]:
+                return i-1
+                break
+            else:
+                continue
