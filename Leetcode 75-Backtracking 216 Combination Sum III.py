@@ -1,6 +1,6 @@
 '''
 
-216 Combination Sum III
+Leetcode 75-Backtracking 216 Combination Sum III
 
 Find all valid combinations of k numbers that sum up to n such that the following conditions are true:
 Only numbers 1 through 9 are used.
@@ -55,3 +55,34 @@ class Solution:
 
     dfs(k, n, 1, [])
     return ans
+
+
+# Second solution
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        ans = []
+        for c in combinations(range(1,10),k):
+            if sum(c)==n:
+                ans.append(c)
+        return ans
+
+
+# Third Solution
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = []
+        
+        def backtrack(num, stack, target):
+            if len(stack) == k:
+                if target == 0:
+                    res.append(stack)
+                return
+            
+            for x in range(num + 1, 10):
+                if x <= target:
+                    backtrack(x, stack + [x], target - x)
+                else:
+                    return
+        
+        backtrack(0, [], n)
+        return res
