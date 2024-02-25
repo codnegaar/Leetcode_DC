@@ -126,3 +126,21 @@ class Solution:
         
     def isPalindrome(self, s):
         return s == s[::-1]
+
+# Second solution
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        hashmap = {word[::-1]: index for index, word in enumerate(words)}
+        result = []
+
+        for index, word in enumerate(words):
+            if "" in hashmap and index != hashmap[""] and word == word[::-1]:
+                result.append([index, hashmap[""]])
+            for i in range(1, len(word) + 1):
+                left = word[:i]
+                right = word[i:]
+                if left in hashmap and right == right[::-1] and index != hashmap[left]:
+                    result.append([index, hashmap[left]])
+                if right in hashmap and left == left[::-1] and index != hashmap[right]:
+                    result.append([hashmap[right], index])
+        return result
