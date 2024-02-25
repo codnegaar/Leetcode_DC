@@ -1,5 +1,4 @@
 '''
-
 Leetcode Trie-336 Palindrome Pairs
 
 You are given a 0-indexed array of unique strings words.
