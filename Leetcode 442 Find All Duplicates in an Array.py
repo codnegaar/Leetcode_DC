@@ -23,3 +23,31 @@ Constraints:
         1 <= nums[i] <= n
         Each element in nums appears once or twice.
 '''
+
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        result = []
+        n = len(nums)
+        for i in range(n):
+            num = abs(nums[i])
+            idx = num - 1
+            if nums[idx] < 0:
+                result.append(num)
+            nums[idx] *= -1
+        return result
+        
+
+# second solution
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        res = []
+        for num in nums:
+            i = abs(num) - 1
+            if nums[i] < 0:
+                res.append(abs(num))
+            else:
+                nums[i] = -nums[i]
+        return res
+ 
+        
+        
