@@ -39,3 +39,26 @@ class Solution:
                 state_map[mask] = i
 
         return max_len
+
+
+
+# Solution II
+class Solution:
+    def findTheLongestSubstring(self, s: str) -> int:
+        vowel_to_bit = {'a': 1, 'e': 2, 'i': 4, 'o': 8, 'u': 16}
+        mask = 0
+        max_len = 0
+        mask_map = {0: -1}  # Map of mask to index, initialized with mask 0 at index -1
+
+        for i, char in enumerate(s):
+            if char in vowel_to_bit:
+                mask ^= vowel_to_bit[char]  # Flip the bit corresponding to the vowel
+
+            if mask in mask_map:
+                # If this mask was seen before, calculate the length of the substring
+                max_len = max(max_len, i - mask_map[mask])
+            else:
+                # If this is the first time we see this mask, store its index
+                mask_map[mask] = i
+
+        return max_len
