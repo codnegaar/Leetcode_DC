@@ -1,5 +1,5 @@
 '''
-1615 Maximal Network Rank
+Leetcode 1615 Maximal Network Rank
 
 There is an infrastructure of n cities with some number of roads connecting these cities. Each roads[i] = [ai, bi] indicates that there is a bidirectional road between cities ai and bi.
 The network rank of two different cities is defined as the total number of directly connected roads to either city. If a road is directly connected to both cities, it is only counted once.
@@ -44,5 +44,39 @@ class Solution:
             for b in range(a + 1, n):
                 if (t := len(g[a]) + len(g[b]) - (a in g[b])) > ans:
                     ans = t
+        return and
+
+# Solution 2
+from typing import List
+
+class Solution:
+    def getMaximumXor(self, nums: List[int], maximumBit: int) -> List[int]:
+        """
+        This function takes an integer array 'nums' and an integer 'maximumBit', and returns a list 
+        of integers that represents the maximum XOR value obtainable by choosing a k in range(0, 2^maximumBit).
+        
+        Parameters:
+            nums (List[int]): List of integers
+            maximumBit (int): The number of bits for the maximum value k can have
+        
+        Returns:
+            List[int]: List of integers representing the maximum XOR obtainable at each step
+        """
+        
+        # Initialize the XOR of all elements and a mask for maximum bit constraint
+        current_xor = 0
+        mask = (1 << maximumBit) - 1  # This creates a mask like '111...1' for maximum possible k with 'maximumBit' bits
+        
+        # Calculate the XOR of all elements in nums once
+        for num in nums:
+            current_xor ^= num
+
+        # Generate the answer by reversing through the list and applying the mask to maximize XOR
+        ans = []
+        for num in reversed(nums):
+            ans.append(current_xor ^ mask)  # Maximize XOR for the current prefix
+            current_xor ^= num  # Remove the current number to adjust prefix XOR
+
         return ans
+
 
