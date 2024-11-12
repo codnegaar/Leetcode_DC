@@ -24,4 +24,35 @@ class Solution:
                 ans.append(interval)
             else:
                 ans[-1][1] = max(ans[-1][1], interval[1])
-        return ans
+        return and
+
+
+# Second solution
+from typing import List
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        """
+        Merges overlapping intervals in a list and returns the merged list.
+
+        Parameters:
+        - intervals (List[List[int]]): A list of intervals, each represented as [start, end].
+
+        Returns:
+        - List[List[int]]: A list of merged intervals where all overlapping intervals are combined.
+        """
+        
+        # Sort intervals by their start time to allow sequential merging
+        intervals.sort(key=lambda interval: interval[0])
+        merged = []
+
+        for interval in intervals:
+            # If merged is empty or current interval does not overlap with last in merged, append it
+            if not merged or merged[-1][1] < interval[0]:
+                merged.append(interval)
+            else:
+                # Merge by extending the end of the last interval in merged
+                merged[-1][1] = max(merged[-1][1], interval[1])
+
+        return merged
+
