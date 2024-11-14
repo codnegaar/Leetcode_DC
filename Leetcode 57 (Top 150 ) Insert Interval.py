@@ -46,4 +46,7 @@ class Solution:
       ans.append(intervals[i])
       i += 1
 
-    return ans
+    return and
+
+
+# Second Solution 
