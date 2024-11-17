@@ -1,5 +1,5 @@
 '''
-
+Leetcode 71 (Top Interview) Simplify Path
  
 Given a string path, which is an absolute path (starting with a slash '/') to a file or directory in a Unix-style file system, 
 convert it to the simplified canonical path. In a Unix-style file system, a period '.' refers to the current directory, a double 
@@ -13,8 +13,6 @@ Any two directories are separated by a single slash '/'.
 The path does not end with a trailing '/'.
 The path only contains the directories on the path from the root directory to the target file or directory (i.e., no period '.' or double period '..')
 Return the simplified canonical path.
-
- 
 
 Example 1:
         Input: path = "/home/"
@@ -51,4 +49,35 @@ class Solution:
 
     return '/' + '/'.join(stack)
 
+# second solution
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        """
+        Simplifies the given Unix-style file path.
 
+        Parameters:
+        path (str): The Unix-style file path as a string.
+
+        Returns:
+        str: The simplified canonical path.
+        """
+        stack = []
+
+        # Split the path by '/' and process each part
+        for part in path.split('/'):
+            if part in ('', '.'):
+                # Skip empty and current directory parts
+                continue
+            if part == '..':
+                # Pop the last directory if possible
+                if stack:
+                    stack.pop()
+            else:
+                # Add the directory to the stack
+                stack.append(part)
+
+        # Join the stack to form the simplified path
+        return '/' + '/'.join(stack)
+
+        # Time complexity: O(n)
+        # Space complexity: O(n)
