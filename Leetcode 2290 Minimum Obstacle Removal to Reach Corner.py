@@ -94,3 +94,70 @@ if __name__ == "__main__":
     queries = [(1, 3), (0, 4), (2, 4)]  # List of queries to add edges
     result = sol.shortestDistanceAfterQueries(n, queries)
     print(result)  # Output the shortest distances after each query
+
+
+# Second Solution:
+from typing import List
+from collections import deque
+
+class Solution:
+    def minimumObstacles(self, grid: List[List[int]]) -> int:
+        """
+        Finds the minimum number of obstacles that need to be removed to reach the bottom-right corner 
+        from the top-left corner of a grid.
+
+        Parameters:
+        grid (List[List[int]]): A 2D grid of 0s (empty cell) and 1s (obstacle).
+
+        Returns:
+        int: The minimum number of obstacles that need to be removed.
+        """
+        m, n = len(grid), len(grid[0])  # Dimensions of the grid
+        
+        # Initialize distance matrix with infinity, which will store the minimum number of obstacles to reach each cell
+        distance = [[float('inf')] * n for _ in range(m)]
+        
+        # Double-ended queue (deque) for 0-1 BFS
+        dq = deque()
+        
+        # Starting at (0, 0), no obstacles removed initially
+        distance[0][0] = 0
+        dq.appendleft((0, 0))
+        
+        # Possible directions for movement (right, down, left, up)
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        # Perform BFS to find the minimum number of obstacles to remove
+        while dq:
+            x, y = dq.popleft()
+            # Iterate over all possible neighbors
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                # Check if the neighbor is within grid boundaries
+                if 0 <= nx < m and 0 <= ny < n:
+                    # Calculate the potential new distance
+                    newDist = distance[x][y] + grid[nx][ny]
+                    # If the new distance is better, update it
+                    if newDist < distance[nx][ny]:
+                        distance[nx][ny] = newDist
+                        # If the cell is empty, add it to the front of the deque for priority processing
+                        if grid[nx][ny] == 0:
+                            dq.appendleft((nx, ny))
+                        # If the cell has an obstacle, add it to the back of the deque
+                        else:
+                            dq.append((nx, ny))
+        
+        # Return the distance to the bottom-right corner
+        return distance[m - 1][n - 1]
+
+# Example Usage
+if __name__ == "__main__":
+    sol = Solution()
+    # Grid with obstacles (1 represents an obstacle, 0 represents an empty cell)
+    grid = [
+        [0, 1, 1],
+        [1, 1, 0],
+        [1, 0, 0]
+    ]
+    result = sol.minimumObstacles(grid)
+    print(f"Minimum obstacles to remove: {result}")  # Expected output: 2
