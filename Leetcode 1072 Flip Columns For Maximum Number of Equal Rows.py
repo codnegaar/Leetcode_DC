@@ -1,5 +1,4 @@
 '''
-
 Leetcode 1072 Flip Columns For Maximum Number of Equal Rows
 
 You are given an m x n binary matrix matrix.
