@@ -57,3 +57,111 @@ class Solution:
     for row in board:
       for i, c in enumerate(row):
         row[i] = 'O' if c == '*' else 'X'
+
+
+
+# Second solution
+class Solution:
+    """
+    Solve Surrounded Regions Problem
+
+    Modifies the board in-place:
+    - Captures all regions surrounded by 'X' (i.e., flips 'O' -> 'X').
+    - Ensures 'O' on the borders or connected to borders remain unchanged.
+
+    Time Complexity: O(n), where n = ROWS * COLS
+    Space Complexity: O(1) (in-place DFS traversal)
+    
+    Parameters:
+    - board: List[List[str]] - A 2D grid containing 'O' and 'X'.
+    
+    Example:
+    Input:
+    board = [
+      ["X", "X", "X", "X"],
+      ["X", "O", "O", "X"],
+      ["X", "X", "O", "X"],
+      ["X", "O", "X", "X"]
+    ]
+    
+    Output:
+    board = [
+      ["X", "X", "X", "X"],
+      ["X", "X", "X", "X"],
+      ["X", "X", "X", "X"],
+      ["X", "O", "X", "X"]
+    ]
+    """
+
+    def solve(self, board: list[list[str]]) -> None:
+        """
+        Main method to solve the surrounded regions problem.
+
+        Args:
+        - board: A 2D list representing the grid.
+
+        Returns:
+        None. Modifies the board in place.
+        """
+        ROWS, COLS = len(board), len(board[0])  # Get grid dimensions
+        
+        # Helper function to perform DFS for border-connected 'O's
+        def dfs(r, c):
+            if r < 0 or r >= ROWS or c < 0 or c >= COLS or board[r][c] != "O":
+                return  # Exit condition: Out of bounds or not 'O'
+            board[r][c] = "T"  # Temporarily mark as 'T'
+            dfs(r + 1, c)  # Explore down
+            dfs(r - 1, c)  # Explore up
+            dfs(r, c + 1)  # Explore right
+            dfs(r, c - 1)  # Explore left
+
+        # Step 1: Capture border-connected 'O' regions
+        for r in range(ROWS):
+            for c in [0, COLS - 1]:  # Only first and last columns
+                if board[r][c] == "O":
+                    dfs(r, c)  # Start DFS for boundary 'O'
+        
+        for r in [0, ROWS - 1]:  # Only first and last rows
+            for c in range(COLS):
+                if board[r][c] == "O":
+                    dfs(r, c)  # Start DFS for boundary 'O'
+        
+        # Step 2: Convert surrounded 'O's to 'X' and restore border-connected 'T' to 'O'
+        for r in range(ROWS):
+            for c in range(COLS):
+                if board[r][c] == "O":
+                    board[r][c] = "X"  # Surrounded 'O' -> 'X'
+                elif board[r][c] == "T":
+                    board[r][c] = "O"  # Restore 'T' -> 'O'
+
+# Unit Test
+if __name__ == "__main__":
+    # Test Case Example
+    board = [
+        ["X", "X", "X", "X"],
+        ["X", "O", "O", "X"],
+        ["X", "X", "O", "X"],
+        ["X", "O", "X", "X"]
+    ]
+    expected_output = [
+        ["X", "X", "X", "X"],
+        ["X", "X", "X", "X"],
+        ["X", "X", "X", "X"],
+        ["X", "O", "X", "X"]
+    ]
+    sol = Solution()
+    sol.solve(board)
+    
+    print("Modified Board:")
+    for row in board:
+        print(row)
+    assert board == expected_output, "Test Failed!"
+    print("Test Passed!")
+
+"""
+References:
+- Python List: https://docs.python.org/3/tutorial/datastructures.html
+- DFS Algorithm: https://docs.python.org/3/library/collections.html
+"""
+ 
+
