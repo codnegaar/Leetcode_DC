@@ -72,3 +72,111 @@ class Solution:
         map[u].neighbors.append(map[v])
 
     return map[node]
+
+# Second solution
+
+"""
+Definition for a Node.
+class Node:
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+
+This module provides a solution to clone a graph using DFS.
+"""
+
+from typing import Optional, Dict
+
+class Node:
+    """Class to represent a Node in an undirected graph."""
+    def __init__(self, val=0, neighbors=None):
+        self.val = val  # Value of the node
+        self.neighbors = neighbors if neighbors is not None else []  # List of neighbors
+
+class Solution:
+    """
+    Solution class to provide a method to clone an undirected graph.
+    
+    Methods:
+        cloneGraph(node): Clones an undirected graph using DFS.
+    """
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        """
+        Clones an undirected graph using DFS.
+
+        Args:
+            node (Optional[Node]): The input graph node to clone.
+
+        Returns:
+            Optional[Node]: The cloned graph node or None if input is None.
+        """
+        if not node:
+            return None  # Return None if the input graph is empty
+
+        seen: Dict[int, Node] = {}  # A dictionary to store cloned nodes
+
+        def dfs(curr_node: 'Node') -> 'Node':
+            """
+            Performs a DFS to clone the graph.
+            
+            Args:
+                curr_node (Node): Current node being visited.
+                
+            Returns:
+                Node: Cloned node corresponding to the current node.
+            """
+            if curr_node.val in seen:
+                # Return the already cloned node if it exists
+                return seen[curr_node.val]
+            
+            # Create a copy of the current node
+            clone = Node(curr_node.val)
+            seen[curr_node.val] = clone  # Store the cloned node in the dictionary
+            
+            # Recursively clone the neighbors
+            for neighbor in curr_node.neighbors:
+                clone.neighbors.append(dfs(neighbor))
+            
+            return clone  # Return the cloned node
+
+        return dfs(node)  # Start DFS from the input node
+
+# Unit Test
+def test_clone_graph():
+    """
+    Unit test for the cloneGraph function.
+    """
+    # Create a sample graph: Node 1 connected to 2 and 4, Node 2 connected to 3, etc.
+    node1 = Node(1)
+    node2 = Node(2)
+    node3 = Node(3)
+    node4 = Node(4)
+    node1.neighbors = [node2, node4]
+    node2.neighbors = [node1, node3]
+    node3.neighbors = [node2, node4]
+    node4.neighbors = [node1, node3]
+
+    solution = Solution()
+    cloned_graph = solution.cloneGraph(node1)
+
+    # Verify the structure of the cloned graph
+    assert cloned_graph is not node1
+    assert cloned_graph.val == 1
+    assert len(cloned_graph.neighbors) == 2
+    assert cloned_graph.neighbors[0].val == 2
+    assert cloned_graph.neighbors[1].val == 4
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_clone_graph()
+
+"""
+Changes:
+1. Optimized DFS by avoiding redundant checks in the recursive calls.
+2. Improved readability by adding docstrings and comments for each step.
+3. Added type hints for better clarity and maintainability.
+4. Added a unit test to validate the solution with an example graph.
+5. Included an implementation example and test coverage for better usability.
+6. Reference to Python documentation: https://docs.python.org/3/library/typing.html for type hints.
+"""
+
