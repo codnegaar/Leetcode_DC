@@ -1,5 +1,4 @@
 '''
-
 Leetcode 1475 Final Prices With a Special Discount in a Shop
 
 You are given an integer array prices where prices[i] is the price of the ith item in a shop.
