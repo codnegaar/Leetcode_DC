@@ -1,5 +1,4 @@
 '''
-
 Leetcode 2471 Minimum Number of Operations to Sort a Binary Tree by Level
  
 You are given the root of a binary tree with unique values.
