@@ -116,3 +116,108 @@ class Solution:
         else:
             return []  # Cycle detected or not all courses can be completed
 
+
+# solution 2
+import collections
+from typing import List
+import string
+
+class Solution:
+    """
+    Class to solve the word ladder problem using a breadth-first search (BFS) approach.
+
+    Methods:
+        ladderLength: Finds the shortest transformation sequence from `beginWord` to `endWord`.
+    """
+
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str], alphabet: str = string.ascii_lowercase) -> int:
+        """
+        Find the length of the shortest transformation sequence from `beginWord` to `endWord`.
+
+        A valid transformation changes only one letter at a time, and all intermediate words must 
+        be present in the `wordList`.
+
+        Parameters:
+        - beginWord (str): The starting word of the sequence.
+        - endWord (str): The target word of the sequence.
+        - wordList (List[str]): The list of allowed words for transformation.
+        - alphabet (str): The set of characters allowed for transformation (default: lowercase English letters).
+
+        Returns:
+        - int: The length of the shortest transformation sequence, or 0 if no sequence exists.
+        """
+        # Convert wordList to a set for O(1) lookups
+        wordSet = set(wordList)
+        
+        # If the endWord is not in the wordList, transformation is impossible
+        if endWord not in wordSet:
+            return 0
+
+        # BFS queue initialized with the beginWord
+        queue = collections.deque([beginWord])
+        # Track the transformation steps (start at 1 for beginWord)
+        steps = 1  
+
+        # Process until the queue is empty
+        while queue:
+            # Iterate over all words in the current BFS level
+            for _ in range(len(queue)):
+                currentWord = queue.popleft()
+                
+                # Modify each character in the word
+                for i in range(len(currentWord)):
+                    # Save the original character
+                    original_char = currentWord[i]
+
+                    # Try all possible characters from the alphabet
+                    for char in alphabet:
+                        # Skip if the character is the same
+                        if char == original_char:
+                            continue
+                        
+                        # Create the new word by replacing the character
+                        newWord = currentWord[:i] + char + currentWord[i+1:]
+                        
+                        # If the endWord is reached, return steps + 1
+                        if newWord == endWord:
+                            return steps + 1
+                        
+                        # If the new word exists in the wordSet, process it
+                        if newWord in wordSet:
+                            queue.append(newWord)       # Add to the BFS queue
+                            wordSet.remove(newWord)     # Remove to prevent revisiting
+
+            # Increment the step count after processing the current level
+            steps += 1
+
+        # Return 0 if no valid transformation is found
+        return 0
+
+# Unit Test
+def test_ladderLength():
+    solution = Solution()
+
+    # Test cases
+    assert solution.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]) == 5
+    assert solution.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]) == 0
+    assert solution.ladderLength("a", "c", ["a", "b", "c"]) == 2
+    assert solution.ladderLength("abc", "def", ["abc", "abd", "abf", "dbf", "dff", "def"]) == 4
+    assert solution.ladderLength("aaa", "ccc", ["aab", "abb", "bbb", "bbc", "bcc", "ccc"]) == 6
+
+    print("All tests passed.")
+
+# Example usage
+if __name__ == "__main__":
+    test_ladderLength()
+
+# Python Documentation Reference:
+# - `collections.deque`: https://docs.python.org/3/library/collections.html#collections.deque
+# - `string.ascii_lowercase`: https://docs.python.org/3/library/string.html#string.ascii_lowercase
+
+# Key changes made:
+# 1. Added detailed docstrings for the method and class.
+# 2. Improved readability with better formatting and comments.
+# 3. Optimized the BFS loop with a queue and removal of visited words to prevent duplicates.
+# 4. Provided a comprehensive unit test suite.
+# 5. Added examples and references to Python documentation.
+
