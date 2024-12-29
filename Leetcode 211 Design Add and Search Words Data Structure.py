@@ -73,3 +73,84 @@ class WordDictionary:
             return cur.word
 
         return dfs(0, self.root)
+
+
+# Second solution
+
+class TrieNode:
+    """
+    Node structure for the Trie.
+    Each node contains:
+    - `children`: A dictionary mapping characters to their respective child nodes.
+    - `is_word`: A boolean indicating if the node represents the end of a valid word.
+    """
+    def __init__(self):
+        self.children = {}
+        self.is_word = False
+
+
+class WordDictionary:
+    """
+    WordDictionary supports adding words and searching words with wildcards.
+    Methods:
+    - addWord(word): Add a word to the dictionary.
+    - search(word): Search for a word with optional wildcard support.
+    """
+    def __init__(self):
+        """
+        Initialize the WordDictionary with an empty root node.
+        """
+        self.root = TrieNode()
+
+    def addWord(self, word: str) -> None:
+        """
+        Add a word to the Trie.
+        
+        Parameters:
+        - word (str): The word to add to the dictionary.
+        """
+        current_node = self.root
+        for character in word:
+            # Set default to add new child if character doesn't exist
+            current_node = current_node.children.setdefault(character, TrieNode())
+        current_node.is_word = True  # Mark the end of the word
+
+    def search(self, word: str) -> bool:
+        """
+        Search for a word in the Trie, supporting '.' as a wildcard for any character.
+        
+        Parameters:
+        - word (str): The word to search for, possibly containing '.'.
+
+        Returns:
+        - bool: True if the word exists in the Trie, False otherwise.
+        """
+        def dfs(node, index):
+            """
+            Depth-first search to handle wildcard matching.
+            
+            Parameters:
+            - node (TrieNode): The current Trie node.
+            - index (int): The current character index in the word.
+
+            Returns:
+            - bool: True if the word is found, False otherwise.
+            """
+            if index == len(word):  # Base case: end of the word
+                return node.is_word
+            
+            char = word[index]
+            if char == ".":
+                # Explore all children for wildcard character
+                for child in node.children.values():
+                    if dfs(child, index + 1):
+                        return True
+            elif char in node.children:
+                # Continue matching if the character exists
+                return dfs(node.children[char], index + 1)
+
+            return False  # No match found
+
+        # Start DFS from the root
+        return dfs(self.root, 0)
+
