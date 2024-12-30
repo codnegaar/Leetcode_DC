@@ -47,3 +47,73 @@ class Solution:
             indx -= 1
             
         return True
+
+
+# 2nd solution
+from typing import List
+import operator
+import unittest
+
+class Solution:
+    """
+    Evaluate Reverse Polish Notation (RPN) expressions.
+
+    Args:
+        tokens (List[str]): List of tokens representing the RPN expression.
+
+    Returns:
+        int: The evaluated result of the RPN expression.
+    """
+    def evalRPN(self, tokens: List[str]) -> int:
+        # Mapping operators to their respective functions for simplicity
+        ops = {
+            '+': operator.add,
+            '-': operator.sub,
+            '*': operator.mul,
+            '/': lambda a, b: int(a / b),  # Ensures truncation towards zero
+        }
+        stack = []  # Stack to keep operands during evaluation
+
+        for token in tokens:
+            if token in ops:  # If the token is an operator
+                b = stack.pop()  # Pop the second operand
+                a = stack.pop()  # Pop the first operand
+                # Apply the operator function and push the result
+                stack.append(ops[token](a, b))
+            else:
+                # If the token is a number, convert it to integer and push to stack
+                stack.append(int(token))
+
+        # The last remaining item in the stack is the result
+        return stack[0]
+
+
+# Unit Testing
+class TestSolution(unittest.TestCase):
+    def setUp(self):
+        self.solution = Solution()
+
+    def test_evalRPN(self):
+        # Example cases
+        self.assertEqual(self.solution.evalRPN(["2", "1", "+", "3", "*"]), 9)
+        self.assertEqual(self.solution.evalRPN(["4", "13", "5", "/", "+"]), 6)
+        self.assertEqual(self.solution.evalRPN(["10", "6", "9", "3", "/", "-", "+"]), 5)
+        # Case with negative numbers
+        self.assertEqual(self.solution.evalRPN(["-10", "3", "/"]), -3)
+        # Single operand
+        self.assertEqual(self.solution.evalRPN(["42"]), 42)
+
+# Main execution for tests and examples
+if __name__ == "__main__":
+    import sys
+    # Prevent unittest from parsing additional CLI arguments
+    sys.argv = [sys.argv[0]]
+    # Run unit tests
+    unittest.main(exit=False)
+
+    # Example usage
+    example_tokens = ["2", "1", "+", "3", "*"]
+    solution = Solution()
+    result = solution.evalRPN(example_tokens)
+    print(f"Result of {example_tokens}: {result}")  # Output: 9
+
