@@ -1,4 +1,5 @@
 '''
+
 Leetcode 2559 Count Vowel Strings in Ranges
  
 You are given a 0-indexed array of strings words and a 2D array of integers queries.
