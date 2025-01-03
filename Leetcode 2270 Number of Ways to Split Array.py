@@ -1,4 +1,5 @@
 '''
+
 Leetcode 2270 Number of Ways to Split Array
   
         You are given a 0-indexed integer array nums of length n.
