@@ -1,5 +1,4 @@
 '''
-
 Leetcode 2381 Shifting Letters II
 
 You are given a string s of lowercase English letters and a 2D integer array shifts where shifts[i] = [starti, endi, directioni]. For every i,
