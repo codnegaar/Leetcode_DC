@@ -1,4 +1,5 @@
 '''
+
 Leetcode 2185 Counting Words With a Given Prefix
  
 You are given an array of strings words and a string pref.
