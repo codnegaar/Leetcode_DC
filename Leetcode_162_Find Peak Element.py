@@ -73,3 +73,58 @@ class Solution:
                 break
             else:
                 continue
+
+# Second Solution:
+from typing import List
+
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        """
+        Finds a peak element in the input list `nums` where a peak is an element
+        that is greater than its neighbors. If the list has multiple peaks,
+        any peak's index can be returned.
+        
+        Parameters:
+        nums (List[int]): A list of integers.
+        
+        Returns:
+        int: The index of any peak element.
+        """
+        # Binary search for finding the peak element (O(log n)).
+        left, right = 0, len(nums) - 1
+
+        while left < right:
+            mid = (left + right) // 2  # Calculate mid index.
+            
+            # Compare mid element with its right neighbor.
+            if nums[mid] > nums[mid + 1]:
+                # Potential peak is in the left half.
+                right = mid
+            else:
+                # Potential peak is in the right half.
+                left = mid + 1
+
+        # The left pointer points to a peak.
+        return left
+
+# Unit tests for the `findPeakElement` function
+if __name__ == "__main__":
+    # Test cases with expected results.
+    test_cases = [
+        ([1, 2, 3, 1], 2),    # Peak at index 2 (value 3).
+        ([1, 2, 1, 3, 5, 6, 4], 5),  # Peak at index 5 (value 6).
+        ([1], 0),             # Single element is always a peak.
+        ([2, 1], 0),          # Peak at index 0 (value 2).
+        ([1, 2], 1),          # Peak at index 1 (value 2).
+        ([1, 2, 3, 4, 5], 4), # Peak at the end.
+        ([5, 4, 3, 2, 1], 0)  # Peak at the start.
+    ]
+
+    # Loop through test cases and validate results.
+    for nums, expected in test_cases:
+        result = Solution().findPeakElement(nums)
+        assert result == expected or nums[result] >= nums[result - 1] and nums[result] >= nums[result + 1], \
+            f"Test failed for input: {nums}, got: {result}, expected: {expected}"
+    
+    print("All tests passed!")
+
