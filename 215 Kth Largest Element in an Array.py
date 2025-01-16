@@ -30,3 +30,41 @@ class Solution:
         heapq.heappop(minHeap)
 
     return minHeap[0]
+
+
+# Second solution
+import heapq
+from typing import List
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        """
+        Find the k-th largest element in an unsorted array using a Min-Heap.
+
+        Parameters:
+        nums (List[int]): List of integers.
+        k (int): The k-th largest element to find.
+
+        Returns:
+        int: The k-th largest element.
+        """
+        # Build a Min-Heap of size k
+        min_heap = nums[:k]
+        heapq.heapify(min_heap)
+        
+        # Iterate over the remaining elements
+        for num in nums[k:]:
+            # If the current number is greater than the smallest in the heap, replace it
+            if num > min_heap[0]:
+                heapq.heappushpop(min_heap, num)
+        
+        # The root of the heap is the k-th largest element
+        return min_heap[0]
+
+# Example of implementation
+nums = [3, 2, 1, 5, 6, 4]
+k = 2
+solution = Solution()
+result = solution.findKthLargest(nums, k)
+print(f"The {k}-th largest element is: {result}")  # Expected output: 5
+
