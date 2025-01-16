@@ -51,3 +51,47 @@ class Solution:
                 proj_cnt += 1
             
         return w
+
+
+# Second solution
+import heapq
+from typing import List
+
+class Solution:
+    def findMaximizedCapital(self, k: int, w: int, profits: List[int], capital: List[int]) -> int:
+        """
+        Find the maximum capital that can be achieved after completing at most k projects.
+
+        Parameters:
+        k (int): Maximum number of projects that can be undertaken.
+        w (int): Initial available capital.
+        profits (List[int]): List of profits for each project.
+        capital (List[int]): List of capital required for each project.
+
+        Returns:
+        int: The maximum capital achievable.
+        """
+        # Pair capital and profits and sort them by the required capital in ascending order
+        projects = sorted(zip(capital, profits))
+        
+        # Max-heap to store available project profits
+        max_heap = []
+        idx = 0  # Pointer to track the projects that can be undertaken
+        
+        # Perform up to k iterations to pick the most profitable projects
+        for _ in range(k):
+            # Push all projects that can be started with the current capital into the max-heap
+            while idx < len(projects) and projects[idx][0] <= w:
+                heapq.heappush(max_heap, -projects[idx][1])  # Use negative profits for max-heap
+                idx += 1
+            
+            # If no projects are available, stop early
+            if not max_heap:
+                break
+            
+            # Pop the project with the maximum profit and update the available capital
+            w += -heapq.heappop(max_heap)
+        
+        return w
+
+ 
