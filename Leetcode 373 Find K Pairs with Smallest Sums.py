@@ -54,3 +54,83 @@ class Solution:
             k -= 1  # Decrement k
 
         return resV  # Return the k smallest pairs
+
+
+# Second Solution:
+import heapq
+from typing import List
+
+class Solution:
+    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+        """
+        Find the k pairs with the smallest sums from two sorted arrays.
+
+        Parameters:
+        nums1 (List[int]): The first sorted array.
+        nums2 (List[int]): The second sorted array.
+        k (int): The number of smallest pairs to return.
+
+        Returns:
+        List[List[int]]: A list of the k pairs with the smallest sums.
+        """
+        if not nums1 or not nums2 or k <= 0:
+            return []  # Handle edge cases where input is invalid or k is zero
+
+        res = []  # Result list to store the pairs
+        pq = []  # Priority queue (min-heap) to store pairs with their sums
+        
+        # Initialize the heap with the first element from nums1 paired with each element in nums2
+        for i in range(min(k, len(nums1))):  # Only take up to k elements from nums1
+            heapq.heappush(pq, (nums1[i] + nums2[0], i, 0))  # (sum, index in nums1, index in nums2)
+
+        # Extract k smallest pairs
+        while k > 0 and pq:
+            current_sum, i, j = heapq.heappop(pq)  # Get the smallest pair from the heap
+            res.append([nums1[i], nums2[j]])  # Add the corresponding pair to the result
+            
+            # If there's a next element in nums2, push the next pair from nums1[i] and nums2[j+1]
+            if j + 1 < len(nums2):
+                heapq.heappush(pq, (nums1[i] + nums2[j + 1], i, j + 1))
+            
+            k -= 1  # Decrement k
+
+        return res
+
+
+# Example of implementation
+if __name__ == "__main__":
+    solution = Solution()
+    nums1 = [1, 7, 11]
+    nums2 = [2, 4, 6]
+    k = 3
+    result = solution.kSmallestPairs(nums1, nums2, k)
+    print(f"The {k} pairs with the smallest sums are: {result}")  # Expected: [[1, 2], [1, 4], [1, 6]]
+
+
+# Unit Testing
+import unittest
+
+class TestKSmallestPairs(unittest.TestCase):
+    def setUp(self):
+        self.solution = Solution()
+
+    def test_case1(self):
+        self.assertEqual(self.solution.kSmallestPairs([1, 7, 11], [2, 4, 6], 3), [[1, 2], [1, 4], [1, 6]])
+
+    def test_case2(self):
+        self.assertEqual(self.solution.kSmallestPairs([1, 1, 2], [1, 2, 3], 2), [[1, 1], [1, 1]])
+
+    def test_case3(self):
+        self.assertEqual(self.solution.kSmallestPairs([], [2, 4, 6], 3), [])
+
+    def test_case4(self):
+        self.assertEqual(self.solution.kSmallestPairs([1, 2], [], 3), [])
+
+    def test_case5(self):
+        self.assertEqual(self.solution.kSmallestPairs([1, 2], [3], 5), [[1, 3], [2, 3]])
+
+if __name__ == "__main__":
+    # Run the test suite
+    unittest.main()
+
+
