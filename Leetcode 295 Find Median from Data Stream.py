@@ -57,3 +57,66 @@ class MedianFinder:
     if len(self.maxHeap) == len(self.minHeap):
       return (-self.maxHeap[0] + self.minHeap[0]) / 2.0
     return -self.maxHeap[0]
+
+
+# Second solution
+import heapq
+
+class MedianFinder:
+    """
+    A data structure to efficiently calculate the median of a stream of numbers.
+    """
+
+    def __init__(self):
+        """
+        Initialize the MedianFinder with two heaps:
+        - maxHeap: A max-heap to store the smaller half of the numbers.
+        - minHeap: A min-heap to store the larger half of the numbers.
+        """
+        self.maxHeap = []  # Max-heap (invert values to simulate max-heap with heapq)
+        self.minHeap = []  # Min-heap
+
+    def addNum(self, num: int) -> None:
+        """
+        Add a number to the data structure.
+
+        Parameters:
+        num (int): The number to be added.
+        """
+        # Add to maxHeap if it's empty or the number is smaller than the maximum of maxHeap
+        if not self.maxHeap or num <= -self.maxHeap[0]:
+            heapq.heappush(self.maxHeap, -num)  # Use negative for max-heap simulation
+        else:
+            heapq.heappush(self.minHeap, num)
+
+        # Balance the two heaps to ensure |maxHeap| >= |minHeap| and their size difference is <= 1
+        if len(self.maxHeap) < len(self.minHeap):
+            heapq.heappush(self.maxHeap, -heapq.heappop(self.minHeap))
+        elif len(self.maxHeap) - len(self.minHeap) > 1:
+            heapq.heappush(self.minHeap, -heapq.heappop(self.maxHeap))
+
+    def findMedian(self) -> float:
+        """
+        Find the median of the numbers added so far.
+
+        Returns:
+        float: The median of the numbers.
+        """
+        # If the number of elements is even, return the average of the two middle elements
+        if len(self.maxHeap) == len(self.minHeap):
+            return (-self.maxHeap[0] + self.minHeap[0]) / 2.0
+        
+        # If the number of elements is odd, return the middle element (max of maxHeap)
+        return -self.maxHeap[0]
+
+
+# Example of Implementation
+if __name__ == "__main__":
+    medianFinder = MedianFinder()
+    numbers = [1, 2, 3, 4]
+    for num in numbers:
+        medianFinder.addNum(num)
+        print(f"Added {num}, current median: {medianFinder.findMedian()}")  # Expected: 1, 1.5, 2, 2.5
+
+
+
