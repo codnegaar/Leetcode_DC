@@ -1,5 +1,5 @@
     '''
-3043 Find the Length of the Longest Common Prefix
+Leetcode 3043 Find the Length of the Longest Common Prefix
 
 You are given two arrays with positive integers arr1 and arr2.
 A prefix of a positive integer is an integer formed by one or more of its digits, starting from its leftmost digit. For example, 123 is a prefix of the integer 12345, while 234 is not.
