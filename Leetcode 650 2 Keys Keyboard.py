@@ -1,5 +1,4 @@
 '''
-
 Leetcode 650 2 Keys Keyboard
 
 There is only one character 'A' on the screen of a notepad. You can perform one of two operations on this notepad for each step:
