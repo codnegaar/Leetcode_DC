@@ -1,4 +1,5 @@
 '''
+Leetcode 300 Longest Increasing Subsequence
 
 Given an integer array nums, return the length of the longest strictly increasing 
 subsequence
@@ -36,4 +37,36 @@ class Solution:
 
     return max(dp)
 
- 
+# Second solution
+from typing import List
+from bisect import bisect_left
+
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        """
+        Finds the length of the longest increasing subsequence in a given list.
+
+        :param nums: List of integers.
+        :return: Length of the longest increasing subsequence.
+
+        Example:
+        >>> Solution().lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18])
+        4
+        """
+        if not nums:
+            return 0  # Edge case: Empty list
+
+        subsequence = []  # Stores the longest increasing subsequence
+        
+        for num in nums:
+            # Use binary search to find the position to replace or extend
+            idx = bisect_left(subsequence, num)
+            
+            if idx == len(subsequence):
+                # If num is greater than all elements, extend the list
+                subsequence.append(num)
+            else:
+                # Replace an element to maintain a lower LIS value
+                subsequence[idx] = num
+
+        return len(subsequence)  # The length of the subsequence is the answer
