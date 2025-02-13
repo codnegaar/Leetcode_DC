@@ -143,3 +143,55 @@ if __name__ == "__main__":
     # Run unit tests
     unittest.main(argv=[''], exit=False)
 
+# 3rd solution
+from typing import List
+
+class Solution:
+    """
+    Solution for generating all possible letter combinations 
+    from a given digit string based on a phone keypad mapping.
+    """
+
+    def __init__(self):
+        # Mapping of digits to corresponding letters based on a phone keypad
+        self.comb = ["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"]
+
+    def letterCombinations(self, digits: str) -> List[str]:
+        """
+        Generates all possible letter combinations for a given digit string.
+
+        :param digits: A string containing digits (2-9)
+        :return: A list of all possible letter combinations
+        """
+        if not digits:
+            return []
+
+        ans = []
+        self._backtrack(0, digits, "", ans)
+        return ans
+
+    def _backtrack(self, index: int, digits: str, current_comb: str, ans: List[str]):
+        """
+        A recursive backtracking function to generate letter combinations.
+
+        :param index: The current index in the digit string
+        :param digits: The input digit string
+        :param current_comb: The combination built so far
+        :param ans: The list storing all valid letter combinations
+        """
+        # Base case: If we have processed all digits, add the combination to results
+        if index == len(digits):
+            ans.append(current_comb)
+            return
+
+        # Get the corresponding letters for the current digit
+        for char in self.comb[int(digits[index])]:
+            self._backtrack(index + 1, digits, current_comb + char, ans)
+
+
+# Example Implementation
+if __name__ == "__main__":
+    solution = Solution()
+    digits = "23"
+    result = solution.letterCombinations(digits)
+    print(f"Letter Combinations for '{digits}': {result}")
