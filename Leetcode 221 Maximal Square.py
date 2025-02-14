@@ -49,3 +49,53 @@ class Solution:
         prev = cache
 
     return maxLength * maxLength
+
+
+# second solution
+from typing import List
+
+class Solution:
+    """
+    A class to generate all combinations of well-formed parentheses for a given n.
+    """
+
+    def generateParenthesis(self, n: int) -> List[str]:
+        """
+        Generates all possible combinations of n pairs of well-formed parentheses.
+
+        Args:
+            n (int): Number of pairs of parentheses.
+
+        Returns:
+            List[str]: A list of valid parentheses combinations.
+        """
+        res = []  # Stores the valid combinations
+
+        def dfs(open_count: int, close_count: int, current: str):
+            """
+            Uses depth-first search (DFS) to generate valid parentheses.
+
+            Args:
+                open_count (int): The number of open parentheses used so far.
+                close_count (int): The number of close parentheses used so far.
+                current (str): The current sequence of parentheses.
+            """
+            if len(current) == n * 2:  # Base case: if the sequence is complete
+                res.append(current)
+                return
+            
+            if open_count < n:  # Add an open parenthesis if limit not reached
+                dfs(open_count + 1, close_count, current + "(")
+            
+            if close_count < open_count:  # Add a closing parenthesis if valid
+                dfs(open_count, close_count + 1, current + ")")
+
+        dfs(0, 0, "")  # Start DFS
+
+        return res
+
+
+# Example usage
+solution = Solution()
+print(solution.generateParenthesis(3))
+
