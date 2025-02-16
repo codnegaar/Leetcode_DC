@@ -76,3 +76,55 @@ solution = Solution()
 nums = [1, 2, 3]
 result = solution.permute(nums)
 print("Generated permutations:", result)
+
+
+# Second solution
+from typing import List, Set
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        """
+        Generates all possible permutations of a given list of numbers.
+
+        Parameters:
+        nums (List[int]): List of distinct integers.
+
+        Returns:
+        List[List[int]]: List of all possible permutations.
+        """
+        res = []  # Stores all permutations
+
+        def backtrack(curr: List[int], used_indices: Set[int]):
+            """
+            Backtracking function to generate permutations.
+
+            Parameters:
+            curr (List[int]): Current permutation being built.
+            used_indices (Set[int]): Indices of numbers already used.
+            """
+            # If the current permutation has all numbers, add it to results
+            if len(curr) == len(nums):
+                res.append(curr[:])  # Append a copy of curr
+                return
+            
+            for i in range(len(nums)):
+                if i not in used_indices:
+                    # Choose the number at index i
+                    used_indices.add(i)
+                    curr.append(nums[i])
+
+                    # Recur with the updated list
+                    backtrack(curr, used_indices)
+
+                    # Backtrack - remove the last number to explore other choices
+                    curr.pop()
+                    used_indices.remove(i)
+
+        backtrack([], set())  # Start backtracking with an empty list and set
+        return res
+
+# Example Usage
+solution = Solution()
+nums = [1, 2, 3]
+result = solution.permute(nums)
+print(f"All permutations of {nums}: {result}")
