@@ -1,4 +1,5 @@
 '''
+Leetcode 79 Word Search
 
 Given an m x n grid of characters board and a string word, return true if the word exists in the grid.
 The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
@@ -195,4 +196,121 @@ if __name__ == "__main__":
 # References:
 - Python Documentation on Lists: https://docs.python.org/3/tutorial/datastructures.html
 """
+
+
+from typing import List
+
+class Solution:
+    """
+    Class to check if a given word exists in a 2D board by constructing it 
+    sequentially using adjacent letters (horizontally or vertically).
+    """
+
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        """
+        Determines if the given word exists in the 2D board by navigating 
+        horizontally or vertically adjacent cells.
+
+        Parameters:
+        -----------
+        board : List[List[str]]
+            2D grid of characters where the word must be searched.
+        word : str
+            Word to be searched in the board.
+
+        Returns:
+        --------
+        bool
+            True if the word exists in the board, False otherwise.
+        """
+        rows, cols = len(board), len(board[0])
+
+        def backtrack(i: int, j: int, k: int) -> bool:
+            """
+            Backtracking function to search for the word in the board.
+
+            Parameters:
+            -----------
+            i : int
+                Current row index.
+            j : int
+                Current column index.
+            k : int
+                Index of the character in `word` that needs to be matched.
+
+            Returns:
+            --------
+            bool
+                True if the word is found, otherwise False.
+            """
+            # Base case: If all characters are matched
+            if k == len(word):
+                return True
+
+            # Boundary checks and character mismatch check
+            if i < 0 or i >= rows or j < 0 or j >= cols or board[i][j] != word[k]:
+                return False
+
+            # Temporarily mark the cell as visited
+            temp = board[i][j]
+            board[i][j] = '#'  # Use '#' as a placeholder to prevent revisiting
+
+            # Explore all four directions (up, down, left, right)
+            found = (
+                backtrack(i + 1, j, k + 1) or  # Down
+                backtrack(i - 1, j, k + 1) or  # Up
+                backtrack(i, j + 1, k + 1) or  # Right
+                backtrack(i, j - 1, k + 1)     # Left
+            )
+
+            # Restore the cell's original value (backtracking)
+            board[i][j] = temp
+
+            return found
+
+        # Iterate through each cell in the board to find the word
+        for i in range(rows):
+            for j in range(cols):
+                if backtrack(i, j, 0):  # Start DFS from this cell
+                    return True
+
+        return False
+
+# Example Usage
+if __name__ == "__main__":
+    solution = Solution()
+
+    # Test cases
+    test_cases = [
+        (
+            [
+                ['A', 'B', 'C', 'E'],
+                ['S', 'F', 'C', 'S'],
+                ['A', 'D', 'E', 'E']
+            ],
+            "ABCCED"
+        ),  # Expected output: True
+
+        (
+            [
+                ['A', 'B', 'C', 'E'],
+                ['S', 'F', 'C', 'S'],
+                ['A', 'D', 'E', 'E']
+            ],
+            "SEE"
+        ),  # Expected output: True
+
+        (
+            [
+                ['A', 'B', 'C', 'E'],
+                ['S', 'F', 'C', 'S'],
+                ['A', 'D', 'E', 'E']
+            ],
+            "ABCB"
+        ),  # Expected output: False
+    ]
+
+    for board, word in test_cases:
+        print(f"Word '{word}' exists in board: {solution.exist(board, word)}")
+
 
