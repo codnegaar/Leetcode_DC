@@ -196,4 +196,38 @@ if __name__ == "__main__":
     print("Test Case 5:", solution.searchRange(nums5, target5))  # Expected: [0, 3]
 
         
+# 3rd solution
+from typing import List
+
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        return [self.findLeft(nums, target), self.findRight(nums, target)]
+
+    def findLeft(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                if mid == 0 or nums[mid - 1] != target:
+                    return mid
+                right = mid - 1
+            elif nums[mid] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return -1
+
+    def findRight(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                if mid == len(nums) - 1 or nums[mid + 1] != target:
+                    return mid
+                left = mid + 1
+            elif nums[mid] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return -1
 
