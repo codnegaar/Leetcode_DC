@@ -71,3 +71,38 @@ class Solution:
 
         return longest_streak
 
+# Second solution
+from typing import List
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        """
+        Returns the length of the longest consecutive sequence in an unsorted list of integers.
+
+        Parameters:
+        - nums (List[int]): A list of integers (can be unsorted and contain duplicates).
+
+        Returns:
+        - int: Length of the longest sequence of consecutive integers.
+        """
+
+        # Convert the list to a set for O(1) lookup times
+        num_set = set(nums)
+        longest = 0
+
+        # Iterate through each unique number in the set
+        for num in num_set:
+            # Only start counting if it's the beginning of a sequence
+            if num - 1 not in num_set:
+                current = num
+                count = 1
+
+                # Continue counting consecutive numbers
+                while current + 1 in num_set:
+                    current += 1
+                    count += 1
+
+                # Update the maximum sequence length
+                longest = max(longest, count)
+
+        return longest
