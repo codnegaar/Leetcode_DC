@@ -1,5 +1,4 @@
 '''
-
 2226 Maximum Candies Allocated to K Children
  
 You are given a 0-indexed integer array candies. Each element in the array denotes a pile of candies of size candies[i]. You can divide each 
