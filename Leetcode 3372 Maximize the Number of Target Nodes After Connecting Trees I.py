@@ -1,10 +1,6 @@
 '''
-3372 Maximize the Number of Target Nodes After Connecting Trees I
-Medium
-Topics
-premium lock icon
-Companies
-Hint
+Leetcode 3372 Maximize the Number of Target Nodes After Connecting Trees I
+ 
 There exist two undirected trees with n and m nodes, with distinct labels in ranges [0, n - 1] and [0, m - 1], respectively.
 You are given two 2D integer arrays edges1 and edges2 of lengths n - 1 and m - 1, respectively, where edges1[i] = [ai, bi] indicates that there
 is an edge between nodes ai and bi in the first tree and edges2[i] = [ui, vi] indicates that there is an edge between nodes ui and vi in the second tree.
