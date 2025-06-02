@@ -41,4 +41,43 @@ class Solution:
     for a, b in zip(l, r):
       ans += max(a, b)
 
-    return ans
+    return and
+
+
+# Second solution
+from typing import List
+
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        """
+        Distribute candies to children based on their ratings.
+        
+        Each child must have at least one candy.
+        Children with a higher rating than their neighbors must get more candies.
+
+        Parameters:
+        ratings (List[int]): A list of integers representing children's ratings.
+
+        Returns:
+        int: The minimum number of candies required.
+        """
+        n = len(ratings)
+        if n == 0:
+            return 0  # No children, no candies needed
+
+        # Step 1: Give each child one candy initially
+        candies = [1] * n
+
+        # Step 2: Left to right — ensure right child has more candy if rating is higher
+        for i in range(1, n):
+            if ratings[i] > ratings[i - 1]:
+                candies[i] = candies[i - 1] + 1
+
+        # Step 3: Right to left — ensure left child has more candy if rating is higher
+        for i in range(n - 2, -1, -1):
+            if ratings[i] > ratings[i + 1]:
+                candies[i] = max(candies[i], candies[i + 1] + 1)
+
+        # Step 4: Total candies is the sum of all candies distributed
+        return sum(candies)
+
