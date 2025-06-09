@@ -1,8 +1,8 @@
 '''
+
 Leetcode 440 K-th Smallest in Lexicographical Order
 
 Given two integers n and k, return the kth lexicographically smallest integer in the range [1, n].
-
 Example 1:
         Input: n = 13, k = 2
         Output: 10
@@ -14,7 +14,6 @@ Example 2:
 
 Constraints:
         1 <= k <= n <= 109
-
 '''
 class Solution:
     def findKthNumber(self, n: int, k: int) -> int:
