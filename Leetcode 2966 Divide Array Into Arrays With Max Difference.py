@@ -1,5 +1,4 @@
 '''
-
 Leetcode 2966 Divide Array Into Arrays With Max Difference
 
 You are given an integer array nums of size n where n is a multiple of 3 and a positive integer k.
