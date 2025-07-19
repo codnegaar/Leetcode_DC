@@ -1,4 +1,5 @@
 '''
+
 Leetcode 1233 Remove Sub-Folders from the Filesystem
 
 Given a list of folders folder, return the folders after removing all sub-folders in those folders. You may return the answer in any order.
