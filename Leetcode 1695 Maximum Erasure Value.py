@@ -1,5 +1,5 @@
 '''
-Leetcode 695 Maximum Erasure Value
+Leetcode 1695 Maximum Erasure Value
  
 You are given an array of positive integers nums, and want to erase a subarray containing unique elements. The score you get by erasing the subarray is equal to the sum of its elements.
 Return the maximum score you can get by erasing exactly one subarray.
@@ -19,7 +19,6 @@ Constraints:
         1 <= nums.length <= 105
         1 <= nums[i] <= 104
 '''
-
 from typing import List
 
 class Solution:
@@ -27,7 +26,7 @@ class Solution:
     Provides a method to find the maximum sum of a subarray with all unique elements.
     """
 
-    def maximum_unique_subarray(self, nums: List[int]) -> int:
+    def maximumUniqueSubarray(self, nums: List[int]) -> int:
         """
         Calculates the maximum sum of a subarray that contains only unique elements.
 
@@ -37,22 +36,22 @@ class Solution:
         Returns:
         int: The maximum possible sum of a subarray with all unique elements.
         """
-        seen = set()         # Set to track unique elements in current window
-        left = 0             # Left pointer for sliding window
-        current_sum = 0      # Sum of current unique subarray
-        max_sum = 0          # Track the maximum sum found
+        seen = set()
+        left = 0
+        current_sum = 0
+        max_sum = 0
 
-        # Iterate with right pointer through the array
         for right in range(len(nums)):
-            # If duplicate is found, shrink window from the left until it's unique
             while nums[right] in seen:
                 current_sum -= nums[left]
                 seen.remove(nums[left])
                 left += 1
 
-            # Add the new unique number
             current_sum += nums[right]
             seen.add(nums[right])
+            max_sum = max(max_sum, current_sum)
+
+        return max_sum
 
             # Update max sum
             max_sum = max(max_sum, current_sum)
