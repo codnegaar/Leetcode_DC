@@ -74,3 +74,86 @@ class Solution:
         exclude_count = self.backtrackHelper(nums, index + 1, currentOR, maxOR)
 
         return include_count + exclude_count
+
+
+# second solution:
+
+from typing import List
+import unittest
+
+class Solution:
+    """
+    Solution to count the number of subsets with the maximum possible bitwise OR value.
+    """
+
+    def countMaxOrSubsets(self, nums: List[int]) -> int:
+        """
+        Returns the number of subsets whose bitwise OR is equal to the maximum possible OR 
+        from any subset of the list.
+
+        Parameters:
+        nums (List[int]): A list of integers.
+
+        Returns:
+        int: Count of subsets with the maximum OR.
+        """
+        max_or = 0
+        for num in nums:
+            max_or |= num  # Compute the global maximum OR value
+        
+        self.count = 0  # Initialize counter for valid subsets
+
+        def backtrack(index: int, current_or: int) -> None:
+            """
+            Backtracking helper to explore all subsets and count those matching max_or.
+
+            Parameters:
+            index (int): Current index in nums list.
+            current_or (int): OR value of the current subset.
+            """
+            if index == len(nums):
+                if current_or == max_or:
+                    self.count += 1  # Valid subset found
+                return
+            
+            # Include current number in the subset
+            backtrack(index + 1, current_or | nums[index])
+            # Exclude current number from the subset
+            backtrack(index + 1, current_or)
+
+        backtrack(0, 0)  # Start backtracking from index 0 with OR 0
+        return self.count
+
+
+# --- Usage Example ---
+
+if __name__ == "__main__":
+    sol = Solution()
+    example = [3, 1]
+    print(f"Number of subsets with max OR from {example}: {sol.countMaxOrSubsets(example)}")
+
+
+# --- Unit Tests ---
+
+class TestCountMaxOrSubsets(unittest.TestCase):
+
+    def setUp(self):
+        self.solution = Solution()
+
+    def test_example1(self):
+        self.assertEqual(self.solution.countMaxOrSubsets([3, 1]), 2)
+
+    def test_example2(self):
+        self.assertEqual(self.solution.countMaxOrSubsets([2, 2, 2]), 7)
+
+    def test_example3(self):
+        self.assertEqual(self.solution.countMaxOrSubsets([1, 2, 3]), 6)
+
+    def test_all_zeroes(self):
+        self.assertEqual(self.solution.countMaxOrSubsets([0, 0, 0]), 0)
+
+    def test_single_element(self):
+        self.assertEqual(self.solution.countMaxOrSubsets([7]), 1)
+
+
+
