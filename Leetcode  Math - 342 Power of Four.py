@@ -21,7 +21,18 @@ Constraints:
 
 '''
 
-import math
 class Solution:
     def isPowerOfFour(self, n: int) -> bool:
-        return n > 0 and math.log2(n) % 2 == 0
+        """
+        Check if a number is a power of four.
+
+        A number is a power of four if:
+        1. It is greater than 0.
+        2. It has exactly one '1' bit in binary (i.e., is a power of two).
+        3. That '1' bit is in an odd position (0-indexed from the right).
+
+        Time Complexity: O(1)
+        Space Complexity: O(1)
+        """
+        return n > 0 and (n & (n - 1)) == 0 and (n & 0x55555555) != 0
+
