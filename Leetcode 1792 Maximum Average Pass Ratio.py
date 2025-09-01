@@ -1,4 +1,5 @@
 '''
+
 Leetcode 1792 Maximum Average Pass Ratio
  
 There is a school that has classes of students and each class will be having a final exam. You are given a 2D integer array classes,
