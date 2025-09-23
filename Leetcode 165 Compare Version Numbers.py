@@ -1,4 +1,5 @@
 '''
+
 Given two version numbers, version1 and version2, compare them.
 
 Version numbers consist of one or more revisions joined by a dot '.'. Each revision consists of 
