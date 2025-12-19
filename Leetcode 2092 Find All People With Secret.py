@@ -1,5 +1,4 @@
 '''
-
 Leetcode 2092 Find All People With Secret
 
 You are given an integer n indicating there are n people numbered from 0 to n - 1. You are also given a 0-indexed 2D integer array meetings where meetings[i] = [xi, yi, timei] 
